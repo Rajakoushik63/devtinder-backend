@@ -26,7 +26,8 @@ app.options("*", (req, res) => {
   console.log("Handling OPTIONS request for ", req.url);
   res.header(
     "Access-Control-Allow-Origin",
-    "http://localhost:5173" || "http://localhost:5174"
+    "http://localhost:5173" ||
+      "http://localhost:5174 || https://dev-book-alpha.vercel.app/"
   );
   res.header(
     "Access-Control-Allow-Methods",
