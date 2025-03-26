@@ -1,7 +1,7 @@
 const express = require("express");
 const { validateSignUpData } = require("../utils/validation.js");
 const User = require("../models/user.js");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs"); // Replacing bcrypt with bcryptjs
 const authRouter = express.Router();
 const validator = require("validator");
 
@@ -10,7 +10,7 @@ authRouter.post("/signup", async (req, res) => {
     validateSignUpData(req);
 
     const { firstName, lastName, emailId, password } = req.body;
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 10); // bcryptjs syntax remains the same
 
     const user = new User({
       firstName,
@@ -39,7 +39,7 @@ authRouter.post("/login", async (req, res) => {
     if (!user) {
       throw new Error("User is not SignedUp!...");
     }
-    const isPasswordValid = await user.validatePassword(password);
+    const isPasswordValid = await bcrypt.compare(password, user.password); // bcryptjs compare method
     if (isPasswordValid) {
       const token = await user.getJWT();
 
